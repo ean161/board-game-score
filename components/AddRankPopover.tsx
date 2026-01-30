@@ -13,7 +13,6 @@ import { Field, FieldGroup, FieldLabel } from "./ui/field";
 import { Input } from "./ui/input";
 import { Checkbox } from "./ui/checkbox";
 import { useState } from "react";
-import { ButtonGroup } from "./ui/button-group";
 
 const colors: string[] = [
     "red-950",
@@ -26,10 +25,8 @@ const colors: string[] = [
 
 export default function AddRankPopover({
     addRank,
-    resetRank,
 }: {
     addRank: (title: string, score: number, color: string) => void;
-    resetRank: () => void;
 }) {
     const [title, setTitle] = useState("");
     const [score, setScore] = useState("");
@@ -83,25 +80,16 @@ export default function AddRankPopover({
                             </Field>
                         ))}
                     </div>
-                    <ButtonGroup>
-                        <Button
-                            onClick={() => {
-                                addRank(
-                                    title,
-                                    Number(score) ?? 0,
-                                    selectedColor,
-                                );
-                                setTitle("");
-                                setScore("");
-                                setColor("");
-                            }}
-                        >
-                            Thêm
-                        </Button>
-                        <Button onClick={resetRank} variant={"destructive"}>
-                            Reset
-                        </Button>
-                    </ButtonGroup>
+                    <Button
+                        onClick={() => {
+                            addRank(title, Number(score) ?? 0, selectedColor);
+                            setTitle("");
+                            setScore("");
+                            setColor("");
+                        }}
+                    >
+                        Thêm
+                    </Button>
                 </FieldGroup>
             </PopoverContent>
         </Popover>

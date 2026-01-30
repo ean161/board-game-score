@@ -8,5 +8,5 @@ export default function useHome() {
     const { players, addPlayer, removePlayer, resetPlayer } = usePlayer();
     const { ranks, addRank, removeRank, resetRank } = useRank();
 
-    return { players, ranks, addRank, resetRank };
+    return { players, ranks, addRank, resetRank, addPlayer };
 }
