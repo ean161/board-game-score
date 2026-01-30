@@ -23,7 +23,8 @@ export default function SetRankPopover({
         <Popover>
             <PopoverTrigger asChild>{trigger}</PopoverTrigger>
             <PopoverContent className="w-fit">
-                <div className="flex flex-wrap gap-2">
+                {player.name != "*" && <span>{player.name}</span>}
+                <div className="flex flex-wrap gap-2 mt-4">
                     {[...ranks]
                         .sort((a, b) => b.score - a.score)
                         .map((r) => {

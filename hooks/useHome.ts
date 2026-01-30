@@ -20,6 +20,8 @@ export default function useHome() {
     const { ranks, addRank, removeRank, resetRank } = useRank();
 
     const reset = () => {
+        window.localStorage.clear();
+
         setBetId(1);
         resetPlayer();
         resetRank();

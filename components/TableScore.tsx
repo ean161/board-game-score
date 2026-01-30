@@ -110,8 +110,8 @@ export default function TableScore({
                                                     >
                                                         <ShinyText
                                                             text={`${history.rank.title}`}
-                                                            speed={2}
-                                                            delay={10}
+                                                            speed={1}
+                                                            delay={30}
                                                             color="white"
                                                             shineColor={
                                                                 history.rank
@@ -119,7 +119,7 @@ export default function TableScore({
                                                             }
                                                             spread={120}
                                                             direction="left"
-                                                            yoyo={true}
+                                                            yoyo={false}
                                                             pauseOnHover={true}
                                                             disabled={false}
                                                         />
@@ -138,76 +138,6 @@ export default function TableScore({
                                             ranks={ranks}
                                             setBetHistory={setBetHistory}
                                         />
-                                        {/* <Popover>
-                                            <PopoverTrigger asChild>
-                                                {history ? (
-                                                    <Badge
-                                                        className={`bg-zinc-950 text-white`}
-                                                    >
-                                                        <ShinyText
-                                                            text={`${history.rank.title}`}
-                                                            speed={2}
-                                                            delay={10}
-                                                            color="white"
-                                                            shineColor={
-                                                                history.rank
-                                                                    .color
-                                                            }
-                                                            spread={120}
-                                                            direction="left"
-                                                            yoyo={true}
-                                                            pauseOnHover={true}
-                                                            disabled={false}
-                                                        />
-                                                    </Badge>
-                                                ) : (
-                                                    <div className="flex justify-center w-full">
-                                                        <Plus
-                                                            size={16}
-                                                            color="gray"
-                                                        />
-                                                    </div>
-                                                )}
-                                            </PopoverTrigger>
-                                            <PopoverContent className="w-fit">
-                                                <div className="flex flex-wrap gap-2">
-                                                    {[...ranks]
-                                                        .sort(
-                                                            (a, b) =>
-                                                                b.score -
-                                                                a.score,
-                                                        )
-                                                        .map((r) => {
-                                                            return (
-                                                                <Button
-                                                                    key={
-                                                                        r.title
-                                                                    }
-                                                                    onClick={() =>
-                                                                        setBetHistory(
-                                                                            {
-                                                                                name: p.name,
-                                                                                id: i,
-                                                                                rank: r,
-                                                                            },
-                                                                        )
-                                                                    }
-                                                                    className={`bg-${r.color}-950 text-white cursor-pointer rounded-full`}
-                                                                >
-                                                                    {r.title}
-                                                                </Button>
-                                                            );
-                                                        })}
-                                                </div>
-                                                <SetCustomBetHis
-                                                    name={p.name}
-                                                    id={i}
-                                                    setBetHistory={
-                                                        setBetHistory
-                                                    }
-                                                />
-                                            </PopoverContent>
-                                        </Popover> */}
                                     </TableCell>
                                 );
                             })}
