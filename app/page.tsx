@@ -1,6 +1,7 @@
 "use client";
 import AddPlayerPopover from "@/components/AddPlayerPopover";
 import AddRankPopover from "@/components/AddRankPopover";
+import MigratePopover from "@/components/MigratePopover";
 import ResetPopover from "@/components/ResetPopover";
 import TableScore from "@/components/TableScore";
 import { ButtonGroup } from "@/components/ui/button-group";
@@ -9,6 +10,8 @@ import useHome from "@/hooks/useHome";
 export default function Home() {
     const {
         betId,
+        getData,
+        setData,
         reset,
         resetHistories,
         ranks,
@@ -38,6 +41,7 @@ export default function Home() {
                         addPlayer={addPlayer}
                         removePlayer={removePlayer}
                     />
+                    <MigratePopover getData={getData} setData={setData} />
                     <ResetPopover
                         reset={reset}
                         resetHistories={resetHistories}

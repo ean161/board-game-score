@@ -121,6 +121,7 @@ export default function usePlayer({
 
     return {
         players,
+        setPlayers,
         addPlayer,
         removePlayer,
         resetPlayer,

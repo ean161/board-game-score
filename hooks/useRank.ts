@@ -39,5 +39,5 @@ export default function useRank() {
         window.localStorage.setItem("ranks", JSON.stringify(ranks));
     }, [ranks]);
 
-    return { ranks, addRank, removeRank, resetRank };
+    return { ranks, setRanks, addRank, removeRank, resetRank };
 }

@@ -7,6 +7,7 @@ export default function useHome() {
     const [betId, setBetId] = useState<number>(1);
     const {
         players,
+        setPlayers,
         addPlayer,
         removePlayer,
         resetPlayer,
@@ -17,7 +18,20 @@ export default function useHome() {
         betId,
         setBetId,
     });
-    const { ranks, addRank, removeRank, resetRank } = useRank();
+    const { ranks, setRanks, addRank, removeRank, resetRank } = useRank();
+
+    const getData = () => {
+        return `${betId}|||${JSON.stringify(ranks)}|||${JSON.stringify(players)}`;
+    };
+
+    const setData = (data: string) => {
+        try {
+            const args = data.split("|||");
+            setBetId(Number(args[0]));
+            setRanks(JSON.parse(args[1]));
+            setPlayers(JSON.parse(args[2]));
+        } catch (err: any) {}
+    };
 
     const reset = () => {
         window.localStorage.clear();
@@ -42,6 +56,8 @@ export default function useHome() {
     return {
         betId,
         setBetId,
+        getData,
+        setData,
         reset,
         resetHistories,
         players,
