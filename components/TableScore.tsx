@@ -18,6 +18,7 @@ import { Rank } from "@/types/Rank";
 import { Button } from "./ui/button";
 import SetCustomBetHis from "./SetCustomBetHis";
 import { Avatar, AvatarImage } from "./ui/avatar";
+import ShinyText from "@/components/ShinyText";
 
 export default function TableScore({
     betId,
@@ -94,10 +95,24 @@ export default function TableScore({
                                                     <Badge
                                                         className={`bg-zinc-950 text-white`}
                                                     >
-                                                        {history.rank.title}
+                                                        <ShinyText
+                                                            text={`${history.rank.title}`}
+                                                            speed={2}
+                                                            delay={10}
+                                                            color="white"
+                                                            shineColor={
+                                                                history.rank
+                                                                    .color
+                                                            }
+                                                            spread={120}
+                                                            direction="left"
+                                                            yoyo={true}
+                                                            pauseOnHover={true}
+                                                            disabled={false}
+                                                        />
                                                     </Badge>
                                                 ) : (
-                                                    <div className="flex justify-center">
+                                                    <div className="flex justify-center w-full">
                                                         <Plus
                                                             size={16}
                                                             color="gray"

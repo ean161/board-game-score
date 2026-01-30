@@ -17,7 +17,7 @@ export default function ResetPopover({
     return (
         <Popover>
             <PopoverTrigger asChild>
-                <Button variant="destructive">Reset</Button>
+                <Button variant="outline">Reset</Button>
             </PopoverTrigger>
             <PopoverContent className="w-fit">
                 <ButtonGroup>
