@@ -1,0 +1,41 @@
+import { Rank } from "@/types/Rank";
+import { useEffect, useState } from "react";
+
+export default function useRank() {
+    const [ranks, setRanks] = useState<Rank[]>([]);
+
+    const addRank = (title: string, score: number, color: string) => {
+        if (!title || score == 0 || !color) {
+            return;
+        }
+
+        setRanks((prev) => [
+            ...prev,
+            {
+                title,
+                score,
+                color,
+            },
+        ]);
+    };
+
+    const removeRank = () => {};
+
+    const resetRank = () => {
+        setRanks([]);
+    };
+
+    useEffect(() => {
+        const cache = window.localStorage.getItem("ranks");
+
+        if (cache) {
+            setRanks(JSON.parse(cache));
+        }
+    }, []);
+
+    useEffect(() => {
+        window.localStorage.setItem("ranks", JSON.stringify(ranks));
+    }, [ranks]);
+
+    return { ranks, addRank, removeRank, resetRank };
+}
