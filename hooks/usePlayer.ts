@@ -61,6 +61,30 @@ export default function usePlayer({
             setBetId(betId + 1);
         }
 
+        if (name == "*") {
+            setPlayers((prev) =>
+                prev.map((p) => {
+                    let found = false;
+
+                    const histories = p.histories.map((h) => {
+                        if (h.id === id) {
+                            found = true;
+                            return { ...h, rank };
+                        }
+                        return h;
+                    });
+
+                    return {
+                        ...p,
+                        histories: found
+                            ? histories
+                            : [...histories, { id, rank }],
+                    };
+                }),
+            );
+            return;
+        }
+
         setPlayers((prev) =>
             prev.map((p) => {
                 if (p.name !== name) return p;

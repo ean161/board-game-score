@@ -12,12 +12,10 @@ import {
 } from "./ui/table";
 import { PhoneCall, Plus } from "lucide-react";
 import { History } from "@/types/History";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Badge } from "./ui/badge";
 import { Rank } from "@/types/Rank";
-import { Button } from "./ui/button";
-import SetCustomBetHis from "./SetCustomBetHis";
 import { Avatar, AvatarImage } from "./ui/avatar";
+import SetRankPopover from "./SetRankPopover";
 import ShinyText from "@/components/ShinyText";
 
 export default function TableScore({
@@ -77,7 +75,22 @@ export default function TableScore({
                             key={i}
                             className="*:border-border [&>:not(:last-child)]:border-r"
                         >
-                            <TableCell className="text-muted">{i}</TableCell>
+                            <TableCell className="text-muted">
+                                <SetRankPopover
+                                    trigger={
+                                        <span className="cursor-pointer">
+                                            {i}
+                                        </span>
+                                    }
+                                    betId={i}
+                                    player={{
+                                        name: "*",
+                                        histories: [],
+                                    }}
+                                    ranks={ranks}
+                                    setBetHistory={setBetHistory}
+                                />
+                            </TableCell>
                             {players.map((p) => {
                                 const history = getBetHistory({
                                     name: p.name,
@@ -89,7 +102,43 @@ export default function TableScore({
                                         key={p.name}
                                         className={`text-center cursor-pointer bg-${history?.rank.color}-950`}
                                     >
-                                        <Popover>
+                                        <SetRankPopover
+                                            trigger={
+                                                history ? (
+                                                    <Badge
+                                                        className={`bg-zinc-950 text-white`}
+                                                    >
+                                                        <ShinyText
+                                                            text={`${history.rank.title}`}
+                                                            speed={2}
+                                                            delay={10}
+                                                            color="white"
+                                                            shineColor={
+                                                                history.rank
+                                                                    .color
+                                                            }
+                                                            spread={120}
+                                                            direction="left"
+                                                            yoyo={true}
+                                                            pauseOnHover={true}
+                                                            disabled={false}
+                                                        />
+                                                    </Badge>
+                                                ) : (
+                                                    <div className="flex justify-center w-full">
+                                                        <Plus
+                                                            size={16}
+                                                            color="gray"
+                                                        />
+                                                    </div>
+                                                )
+                                            }
+                                            betId={i}
+                                            player={p}
+                                            ranks={ranks}
+                                            setBetHistory={setBetHistory}
+                                        />
+                                        {/* <Popover>
                                             <PopoverTrigger asChild>
                                                 {history ? (
                                                     <Badge
@@ -158,7 +207,7 @@ export default function TableScore({
                                                     }
                                                 />
                                             </PopoverContent>
-                                        </Popover>
+                                        </Popover> */}
                                     </TableCell>
                                 );
                             })}
