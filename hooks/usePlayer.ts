@@ -1,10 +1,23 @@
-import { Player } from "@/types/Player";
-import { useState } from "react";
+"use client";
 
-export default function usePlayer() {
+import {
+    AddPlayer,
+    GetBetHistory,
+    Player,
+    SetBetHistory,
+} from "@/types/Player";
+import { useEffect, useState } from "react";
+
+export default function usePlayer({
+    betId,
+    setBetId,
+}: {
+    betId: number;
+    setBetId: (betId: number) => void;
+}) {
     const [players, setPlayers] = useState<Player[]>([]);
 
-    const addPlayer = (name: string, score: number) => {
+    const addPlayer = ({ name, score }: AddPlayer) => {
         if (!name) {
             return;
         }
@@ -14,13 +27,67 @@ export default function usePlayer() {
             {
                 name,
                 score,
+                histories: [],
             },
         ]);
     };
 
     const removePlayer = () => {};
 
-    const resetPlayer = () => {};
+    const resetPlayer = () => {
+        setPlayers([]);
+    };
 
-    return { players, addPlayer, removePlayer, resetPlayer };
+    const getBetHistory = ({ name, id }: GetBetHistory) => {
+        const player = players.findLast((p) => p.name == name);
+        return player?.histories.findLast((h) => h.id == id);
+    };
+
+    const setBetHistory = ({ name, id, rank }: SetBetHistory) => {
+        if (id >= betId) {
+            setBetId(betId + 1);
+        }
+
+        setPlayers((prev) =>
+            prev.map((p) => {
+                if (p.name !== name) return p;
+
+                let found = false;
+
+                const histories = p.histories.map((h) => {
+                    if (h.id === id) {
+                        found = true;
+                        return { ...h, rank };
+                    }
+                    return h;
+                });
+
+                return {
+                    ...p,
+                    histories: found ? histories : [...histories, { id, rank }],
+                };
+            }),
+        );
+    };
+
+    useEffect(() => {
+        const cache = window.localStorage.getItem("players");
+
+        if (cache) {
+            setPlayers(JSON.parse(cache));
+        }
+    }, []);
+
+    useEffect(() => {
+        window.localStorage.setItem("players", JSON.stringify(players));
+    }, [players]);
+
+    return {
+        players,
+        addPlayer,
+        removePlayer,
+        resetPlayer,
+        getBetHistory,
+        setBetHistory,
+    };
 }

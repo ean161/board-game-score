@@ -1,10 +1,10 @@
-import { Rank } from "@/types/Rank";
+import { AddRank, Rank } from "@/types/Rank";
 import { useEffect, useState } from "react";
 
 export default function useRank() {
     const [ranks, setRanks] = useState<Rank[]>([]);
 
-    const addRank = (title: string, score: number, color: string) => {
+    const addRank = ({ title, score, color }: AddRank) => {
         if (!title || score == 0 || !color) {
             return;
         }

@@ -13,12 +13,15 @@ import { Field, FieldGroup, FieldLabel } from "./ui/field";
 import { Input } from "./ui/input";
 import { Checkbox } from "./ui/checkbox";
 import { useState } from "react";
+import { AddRank } from "@/types/Rank";
 
 const colors: string[] = [
     "red-950",
     "red-800",
+    "red-700",
     "red-600",
     "green-600",
+    "green-700",
     "green-800",
     "green-950",
 ];
@@ -26,7 +29,7 @@ const colors: string[] = [
 export default function AddRankPopover({
     addRank,
 }: {
-    addRank: (title: string, score: number, color: string) => void;
+    addRank: ({ title, score, color }: AddRank) => void;
 }) {
     const [title, setTitle] = useState("");
     const [score, setScore] = useState("");
@@ -46,7 +49,7 @@ export default function AddRankPopover({
                 </PopoverHeader>
                 <FieldGroup className="mt-4">
                     <Field orientation="horizontal">
-                        <FieldLabel className="w-1/3">Tên</FieldLabel>
+                        <FieldLabel className="w-1/3">Hạng</FieldLabel>
                         <Input
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
@@ -67,7 +70,7 @@ export default function AddRankPopover({
                                 className="w-fit"
                             >
                                 <FieldLabel htmlFor={`color-${color}`}>
-                                    <span className={`text-${color}`}>
+                                    <span className={`text-${color}-700`}>
                                         {color.toUpperCase()}
                                     </span>
                                 </FieldLabel>
@@ -82,7 +85,11 @@ export default function AddRankPopover({
                     </div>
                     <Button
                         onClick={() => {
-                            addRank(title, Number(score) ?? 0, selectedColor);
+                            addRank({
+                                title,
+                                score: Number(score) ?? 0,
+                                color: selectedColor,
+                            });
                             setTitle("");
                             setScore("");
                             setColor("");

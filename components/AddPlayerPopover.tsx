@@ -12,20 +12,12 @@ import {
 import { Field, FieldGroup, FieldLabel } from "./ui/field";
 import { Input } from "./ui/input";
 import { useState } from "react";
-
-const colors: string[] = [
-    "red-950",
-    "red-800",
-    "red-600",
-    "green-600",
-    "green-800",
-    "green-950",
-];
+import { AddPlayer } from "@/types/Player";
 
 export default function AddPlayerPopover({
     addPlayer,
 }: {
-    addPlayer: (name: string, score: number) => void;
+    addPlayer: ({ name, score }: AddPlayer) => void;
 }) {
     const [name, setName] = useState("");
     const [score, setScore] = useState("0");
@@ -59,7 +51,7 @@ export default function AddPlayerPopover({
                     </Field>
                     <Button
                         onClick={() => {
-                            addPlayer(name, Number(score) ?? 0);
+                            addPlayer({ name, score: Number(score) ?? 0 });
                             setName("");
                             setScore("0");
                         }}

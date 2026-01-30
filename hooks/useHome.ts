@@ -1,12 +1,51 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import usePlayer from "./usePlayer";
 import useRank from "./useRank";
 
 export default function useHome() {
     const [betId, setBetId] = useState<number>(1);
-    const { players, addPlayer, removePlayer, resetPlayer } = usePlayer();
+    const {
+        players,
+        addPlayer,
+        removePlayer,
+        resetPlayer,
+        getBetHistory,
+        setBetHistory,
+    } = usePlayer({
+        betId,
+        setBetId,
+    });
     const { ranks, addRank, removeRank, resetRank } = useRank();
 
-    return { players, ranks, addRank, resetRank, addPlayer };
+    const reset = () => {
+        setBetId(1);
+        resetPlayer();
+        resetRank();
+    };
+
+    useEffect(() => {
+        const cache = window.localStorage.getItem("betId");
+
+        if (cache) {
+            setBetId(Number(cache));
+        }
+    }, []);
+
+    useEffect(() => {
+        window.localStorage.setItem("betId", String(betId));
+    }, [betId]);
+
+    return {
+        betId,
+        setBetId,
+        reset,
+        players,
+        ranks,
+        addRank,
+        resetRank,
+        addPlayer,
+        getBetHistory,
+        setBetHistory,
+    };
 }
