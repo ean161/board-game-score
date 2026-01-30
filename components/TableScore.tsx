@@ -17,6 +17,7 @@ import { Badge } from "./ui/badge";
 import { Rank } from "@/types/Rank";
 import { Button } from "./ui/button";
 import SetCustomBetHis from "./SetCustomBetHis";
+import { Avatar, AvatarImage } from "./ui/avatar";
 
 export default function TableScore({
     betId,
@@ -41,13 +42,23 @@ export default function TableScore({
             </TableCaption>
             <TableHeader>
                 <TableRow className="*:border-border [&>:not(:last-child)]:border-r">
-                    <TableHead className="w-10 text-muted">#</TableHead>
+                    <TableHead className="text-muted">#</TableHead>
                     {players.map((p) => {
                         return (
                             <TableHead key={p.name}>
-                                <p className="text-center cursor-pointer">
-                                    {p.name}
-                                </p>
+                                <div className="flex justify-center my-2">
+                                    <Badge
+                                        variant="outline"
+                                        className="p-1 pr-2 space-x-1 cursor-pointer items-center"
+                                    >
+                                        <Avatar className="size-6 rounded-full items-center bg-gray-100/10">
+                                            <AvatarImage
+                                                src={`https://robohash.org/${encodeURI(p.name)}`}
+                                            />
+                                        </Avatar>
+                                        <span>{p.name}</span>
+                                    </Badge>
+                                </div>
                             </TableHead>
                         );
                     })}
@@ -75,13 +86,13 @@ export default function TableScore({
                                 return (
                                     <TableCell
                                         key={p.name}
-                                        className="text-center cursor-pointer"
+                                        className={`text-center cursor-pointer bg-${history?.rank.color}-950`}
                                     >
                                         <Popover>
                                             <PopoverTrigger asChild>
                                                 {history ? (
                                                     <Badge
-                                                        className={`bg-${history.rank.color}-950 text-white`}
+                                                        className={`bg-zinc-950 text-white`}
                                                     >
                                                         {history.rank.title}
                                                     </Badge>

@@ -23,7 +23,7 @@ export default function Home() {
     } = useHome();
 
     return (
-        <div className="p-6 space-y-8">
+        <div className="py-6 px-4 space-y-8">
             <ButtonGroup>
                 <ButtonGroup>
                     <AddRankPopover
