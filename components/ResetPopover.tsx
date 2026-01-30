@@ -6,6 +6,7 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import { ButtonGroup } from "./ui/button-group";
+import { OctagonAlert } from "lucide-react";
 
 export default function ResetPopover({
     reset,
@@ -17,7 +18,10 @@ export default function ResetPopover({
     return (
         <Popover>
             <PopoverTrigger asChild>
-                <Button variant="outline">Reset</Button>
+                <Button variant="outline">
+                    <OctagonAlert />
+                    Reset
+                </Button>
             </PopoverTrigger>
             <PopoverContent className="w-fit">
                 <ButtonGroup>

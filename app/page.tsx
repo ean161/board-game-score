@@ -34,13 +34,13 @@ export default function Home() {
                         addRank={addRank}
                         removeRank={removeRank}
                     />
-                </ButtonGroup>
-                <ButtonGroup>
                     <AddPlayerPopover
                         players={players}
                         addPlayer={addPlayer}
                         removePlayer={removePlayer}
                     />
+                </ButtonGroup>
+                <ButtonGroup>
                     <MigratePopover getData={getData} setData={setData} />
                     <ResetPopover
                         reset={reset}

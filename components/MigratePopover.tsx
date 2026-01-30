@@ -1,6 +1,6 @@
 "use client";
 
-import { CheckCheck, Copy } from "lucide-react";
+import { CheckCheck, CircleFadingArrowUp, Copy } from "lucide-react";
 import { Button } from "./ui/button";
 import { ButtonGroup } from "./ui/button-group";
 import { Field } from "./ui/field";
@@ -26,7 +26,10 @@ export default function MigratePopover({
     return (
         <Popover>
             <PopoverTrigger asChild>
-                <Button variant={"outline"}>Migrate</Button>
+                <Button variant={"outline"}>
+                    <CircleFadingArrowUp />
+                    Migrate
+                </Button>
             </PopoverTrigger>
             <PopoverContent>
                 <Field>
