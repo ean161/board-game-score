@@ -112,7 +112,7 @@ export default function TableScore({
                                                             text={`${history.rank.title}`}
                                                             speed={1}
                                                             delay={30}
-                                                            color="white"
+                                                            color="gray"
                                                             shineColor={
                                                                 history.rank
                                                                     .color
