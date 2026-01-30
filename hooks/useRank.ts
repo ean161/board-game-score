@@ -1,4 +1,4 @@
-import { AddRank, Rank } from "@/types/Rank";
+import { AddRank, Rank, RemoveRank } from "@/types/Rank";
 import { useEffect, useState } from "react";
 
 export default function useRank() {
@@ -19,7 +19,9 @@ export default function useRank() {
         ]);
     };
 
-    const removeRank = () => {};
+    const removeRank = ({ title }: RemoveRank) => {
+        setRanks(ranks.filter((r) => r.title != title));
+    };
 
     const resetRank = () => {
         setRanks([]);

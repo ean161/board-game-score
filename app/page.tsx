@@ -1,8 +1,8 @@
 "use client";
 import AddPlayerPopover from "@/components/AddPlayerPopover";
 import AddRankPopover from "@/components/AddRankPopover";
+import ResetPopover from "@/components/ResetPopover";
 import TableScore from "@/components/TableScore";
-import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
 import useHome from "@/hooks/useHome";
 
@@ -10,11 +10,14 @@ export default function Home() {
     const {
         betId,
         reset,
+        resetHistories,
         ranks,
         addRank,
+        removeRank,
         resetRank,
         players,
         addPlayer,
+        removePlayer,
         getBetHistory,
         setBetHistory,
     } = useHome();
@@ -23,18 +26,24 @@ export default function Home() {
         <div className="p-6 space-y-8">
             <ButtonGroup>
                 <ButtonGroup>
-                    <AddRankPopover addRank={addRank} />
+                    <AddRankPopover
+                        ranks={ranks}
+                        addRank={addRank}
+                        removeRank={removeRank}
+                    />
                 </ButtonGroup>
                 <ButtonGroup>
-                    <AddPlayerPopover addPlayer={addPlayer} />
-                    <Button variant="destructive" onClick={reset}>
-                        Reset
-                    </Button>
-                    {/* <Button variant="outline">Report</Button> */}
+                    <AddPlayerPopover
+                        players={players}
+                        addPlayer={addPlayer}
+                        removePlayer={removePlayer}
+                    />
+                    <ResetPopover
+                        reset={reset}
+                        resetHistories={resetHistories}
+                    />
                 </ButtonGroup>
             </ButtonGroup>
-            {/* <p>Ranks: {JSON.stringify(ranks)}</p>
-            <p>Players: {JSON.stringify(players)}</p> */}
             <TableScore
                 betId={betId}
                 players={players}
@@ -42,24 +51,19 @@ export default function Home() {
                 getBetHistory={getBetHistory}
                 setBetHistory={setBetHistory}
             />
-            <div className="hidden">
-                <span className="text-red-950"></span>
-                <span className="text-red-800"></span>
-                <span className="text-red-700"></span>
-                <span className="text-red-600"></span>
-                <span className="text-green-950"></span>
-                <span className="text-green-800"></span>
-                <span className="text-green-700"></span>
-                <span className="text-green-600"></span>
-
+            <div className="">
                 <span className="bg-red-950"></span>
-                <span className="bg-red-700"></span>
-                <span className="bg-red-800"></span>
-                <span className="bg-red-600"></span>
+                <span className="bg-orange-950"></span>
+                <span className="bg-amber-950"></span>
+                <span className="bg-yellow-950"></span>
+
+                <span className="bg-lime-950"></span>
                 <span className="bg-green-950"></span>
-                <span className="bg-green-700"></span>
-                <span className="bg-green-800"></span>
-                <span className="bg-green-600"></span>
+                <span className="bg-emerald-950"></span>
+                <span className="bg-teal-950"></span>
+
+                <span className="bg-blue-950"></span>
+                <span className="bg-purple-950"></span>
             </div>
         </div>
     );

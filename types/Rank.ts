@@ -9,3 +9,7 @@ export type AddRank = {
     score: number;
     color: string;
 };
+
+export type RemoveRank = {
+    title: string;
+};

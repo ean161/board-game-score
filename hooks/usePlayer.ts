@@ -4,6 +4,7 @@ import {
     AddPlayer,
     GetBetHistory,
     Player,
+    RemovePlayer,
     SetBetHistory,
 } from "@/types/Player";
 import { useEffect, useState } from "react";
@@ -17,7 +18,7 @@ export default function usePlayer({
 }) {
     const [players, setPlayers] = useState<Player[]>([]);
 
-    const addPlayer = ({ name, score }: AddPlayer) => {
+    const addPlayer = ({ name }: AddPlayer) => {
         if (!name) {
             return;
         }
@@ -26,21 +27,33 @@ export default function usePlayer({
             ...prev,
             {
                 name,
-                score,
                 histories: [],
             },
         ]);
     };
 
-    const removePlayer = () => {};
+    const removePlayer = ({ name }: RemovePlayer) => {
+        setPlayers(players.filter((p) => p.name != name));
+    };
 
     const resetPlayer = () => {
         setPlayers([]);
     };
 
+    const resetHistories = () => {
+        setPlayers((prev) =>
+            prev.map((p) => ({
+                ...p,
+                histories: [],
+            })),
+        );
+
+        setBetId(1);
+    };
+
     const getBetHistory = ({ name, id }: GetBetHistory) => {
         const player = players.findLast((p) => p.name == name);
-        return player?.histories.findLast((h) => h.id == id);
+        return player?.histories?.findLast((h) => h.id == id);
     };
 
     const setBetHistory = ({ name, id, rank }: SetBetHistory) => {
@@ -87,6 +100,7 @@ export default function usePlayer({
         addPlayer,
         removePlayer,
         resetPlayer,
+        resetHistories,
         getBetHistory,
         setBetHistory,
     };

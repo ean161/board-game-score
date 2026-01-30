@@ -16,6 +16,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Badge } from "./ui/badge";
 import { Rank } from "@/types/Rank";
 import { Button } from "./ui/button";
+import SetCustomBetHis from "./SetCustomBetHis";
 
 export default function TableScore({
     betId,
@@ -40,9 +41,15 @@ export default function TableScore({
             </TableCaption>
             <TableHeader>
                 <TableRow className="*:border-border [&>:not(:last-child)]:border-r">
-                    <TableHead className="w-10">#</TableHead>
+                    <TableHead className="w-10 text-muted">#</TableHead>
                     {players.map((p) => {
-                        return <TableHead key={p.name}>{p.name}</TableHead>;
+                        return (
+                            <TableHead key={p.name}>
+                                <p className="text-center cursor-pointer">
+                                    {p.name}
+                                </p>
+                            </TableHead>
+                        );
                     })}
                 </TableRow>
             </TableHeader>
@@ -58,7 +65,7 @@ export default function TableScore({
                             key={i}
                             className="*:border-border [&>:not(:last-child)]:border-r"
                         >
-                            <TableCell>{i}</TableCell>
+                            <TableCell className="text-muted">{i}</TableCell>
                             {players.map((p) => {
                                 const history = getBetHistory({
                                     name: p.name,
@@ -74,7 +81,7 @@ export default function TableScore({
                                             <PopoverTrigger asChild>
                                                 {history ? (
                                                     <Badge
-                                                        className={`bg-${history.rank.color} text-white`}
+                                                        className={`bg-${history.rank.color}-950 text-white`}
                                                     >
                                                         {history.rank.title}
                                                     </Badge>
@@ -89,43 +96,43 @@ export default function TableScore({
                                             </PopoverTrigger>
                                             <PopoverContent className="w-fit">
                                                 <div className="flex flex-wrap gap-2">
-                                                    {ranks.map((r) => {
-                                                        return (
-                                                            <Button
-                                                                key={r.title}
-                                                                onClick={() =>
-                                                                    setBetHistory(
-                                                                        {
-                                                                            name: p.name,
-                                                                            id: i,
-                                                                            rank: r,
-                                                                        },
-                                                                    )
-                                                                }
-                                                                className={`bg-${r.color} text-white cursor-pointer`}
-                                                            >
-                                                                {r.title}
-                                                            </Button>
-                                                        );
-                                                    })}
+                                                    {[...ranks]
+                                                        .sort(
+                                                            (a, b) =>
+                                                                b.score -
+                                                                a.score,
+                                                        )
+                                                        .map((r) => {
+                                                            return (
+                                                                <Button
+                                                                    key={
+                                                                        r.title
+                                                                    }
+                                                                    onClick={() =>
+                                                                        setBetHistory(
+                                                                            {
+                                                                                name: p.name,
+                                                                                id: i,
+                                                                                rank: r,
+                                                                            },
+                                                                        )
+                                                                    }
+                                                                    className={`bg-${r.color}-950 text-white cursor-pointer rounded-full`}
+                                                                >
+                                                                    {r.title}
+                                                                </Button>
+                                                            );
+                                                        })}
                                                 </div>
+                                                <SetCustomBetHis
+                                                    name={p.name}
+                                                    id={i}
+                                                    setBetHistory={
+                                                        setBetHistory
+                                                    }
+                                                />
                                             </PopoverContent>
                                         </Popover>
-                                        {/* <Button
-                                            onClick={() => {
-                                                setBetHistory({
-                                                    name: p.name,
-                                                    betId: i,
-                                                    rank: {
-                                                        title: "A",
-                                                        score: 2,
-                                                        color: "red-950",
-                                                    },
-                                                });
-                                            }}
-                                        >
-                                            <span>{history?.rank?.title}</span>
-                                        </Button> */}
                                     </TableCell>
                                 );
                             })}
@@ -134,16 +141,14 @@ export default function TableScore({
                 })}
             </TableBody>
             <TableFooter>
-                <TableRow>
-                    <TableCell>#</TableCell>
+                <TableRow className="*:border-border [&>:not(:last-child)]:border-r">
+                    <TableCell className="text-muted">#</TableCell>
                     {players.map((p) => {
                         var hisTotal = 0;
                         p.histories.map((h) => (hisTotal += h.rank.score));
 
                         return <TableCell key={p.name}>{hisTotal}</TableCell>;
                     })}
-                    {/* <TableCell colSpan={players.length}>Total</TableCell>
-                    <TableCell className="text-right">?</TableCell> */}
                 </TableRow>
             </TableFooter>
         </Table>

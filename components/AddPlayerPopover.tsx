@@ -1,5 +1,5 @@
 "use client";
-import { UsersRound } from "lucide-react";
+import { Trash, UsersRound } from "lucide-react";
 import { Button } from "./ui/button";
 import {
     Popover,
@@ -12,15 +12,19 @@ import {
 import { Field, FieldGroup, FieldLabel } from "./ui/field";
 import { Input } from "./ui/input";
 import { useState } from "react";
-import { AddPlayer } from "@/types/Player";
+import { AddPlayer, Player, RemovePlayer } from "@/types/Player";
+import { ButtonGroup } from "./ui/button-group";
 
 export default function AddPlayerPopover({
+    players,
     addPlayer,
+    removePlayer,
 }: {
-    addPlayer: ({ name, score }: AddPlayer) => void;
+    players: Player[];
+    addPlayer: ({ name }: AddPlayer) => void;
+    removePlayer: ({ name }: RemovePlayer) => void;
 }) {
     const [name, setName] = useState("");
-    const [score, setScore] = useState("0");
 
     return (
         <Popover>
@@ -42,22 +46,26 @@ export default function AddPlayerPopover({
                             onChange={(e) => setName(e.target.value)}
                         />
                     </Field>
-                    <Field orientation="horizontal">
-                        <FieldLabel className="w-1/3">Điểm</FieldLabel>
-                        <Input
-                            value={score}
-                            onChange={(e) => setScore(e.target.value ?? "0")}
-                        />
-                    </Field>
                     <Button
                         onClick={() => {
-                            addPlayer({ name, score: Number(score) ?? 0 });
+                            addPlayer({ name });
                             setName("");
-                            setScore("0");
                         }}
                     >
                         Thêm
                     </Button>
+                    {players.map((p) => (
+                        <ButtonGroup key={p.name}>
+                            <Input defaultValue={p.name} disabled />
+                            <Button
+                                onClick={() => removePlayer({ name: p.name })}
+                                variant={"destructive"}
+                                size={"icon"}
+                            >
+                                <Trash />
+                            </Button>
+                        </ButtonGroup>
+                    ))}
                 </FieldGroup>
             </PopoverContent>
         </Popover>

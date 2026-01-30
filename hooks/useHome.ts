@@ -12,6 +12,7 @@ export default function useHome() {
         resetPlayer,
         getBetHistory,
         setBetHistory,
+        resetHistories,
     } = usePlayer({
         betId,
         setBetId,
@@ -40,11 +41,14 @@ export default function useHome() {
         betId,
         setBetId,
         reset,
+        resetHistories,
         players,
         ranks,
         addRank,
+        removeRank,
         resetRank,
         addPlayer,
+        removePlayer,
         getBetHistory,
         setBetHistory,
     };

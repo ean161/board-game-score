@@ -3,7 +3,6 @@ import { Rank } from "./Rank";
 
 export type Player = {
     name: string;
-    score: number;
     histories: History[];
 };
 
@@ -20,5 +19,8 @@ export type SetBetHistory = {
 
 export type AddPlayer = {
     name: string;
-    score: number;
+};
+
+export type RemovePlayer = {
+    name: string;
 };

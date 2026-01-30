@@ -1,5 +1,5 @@
 "use client";
-import { Settings } from "lucide-react";
+import { Settings, Trash } from "lucide-react";
 import { Button } from "./ui/button";
 import {
     Popover,
@@ -13,23 +13,18 @@ import { Field, FieldGroup, FieldLabel } from "./ui/field";
 import { Input } from "./ui/input";
 import { Checkbox } from "./ui/checkbox";
 import { useState } from "react";
-import { AddRank } from "@/types/Rank";
-
-const colors: string[] = [
-    "red-950",
-    "red-800",
-    "red-700",
-    "red-600",
-    "green-600",
-    "green-700",
-    "green-800",
-    "green-950",
-];
+import { AddRank, Rank, RemoveRank } from "@/types/Rank";
+import { Badge } from "./ui/badge";
+import { colors } from "@/data/colors";
 
 export default function AddRankPopover({
+    ranks,
     addRank,
+    removeRank,
 }: {
+    ranks: Rank[];
     addRank: ({ title, score, color }: AddRank) => void;
+    removeRank: ({ title }: RemoveRank) => void;
 }) {
     const [title, setTitle] = useState("");
     const [score, setScore] = useState("");
@@ -62,7 +57,7 @@ export default function AddRankPopover({
                             onChange={(e) => setScore(e.target.value ?? "0")}
                         />
                     </Field>
-                    <div className="flex flex-wrap gap-4">
+                    <div className="grid grid-cols-2 gap-2">
                         {colors.map((color, idx) => (
                             <Field
                                 key={idx}
@@ -70,9 +65,11 @@ export default function AddRankPopover({
                                 className="w-fit"
                             >
                                 <FieldLabel htmlFor={`color-${color}`}>
-                                    <span className={`text-${color}-700`}>
-                                        {color.toUpperCase()}
-                                    </span>
+                                    <Badge
+                                        className={`bg-${color}-950 text-red`}
+                                    >
+                                        {color}
+                                    </Badge>
                                 </FieldLabel>
                                 <Checkbox
                                     checked={selectedColor == color}
@@ -85,18 +82,52 @@ export default function AddRankPopover({
                     </div>
                     <Button
                         onClick={() => {
-                            addRank({
-                                title,
-                                score: Number(score) ?? 0,
-                                color: selectedColor,
-                            });
-                            setTitle("");
-                            setScore("");
-                            setColor("");
+                            try {
+                                const scoreNum = Number(score) ?? 0;
+
+                                if (Number.isNaN(scoreNum)) {
+                                    setScore("");
+                                    return;
+                                }
+
+                                addRank({
+                                    title,
+                                    score: scoreNum,
+                                    color: selectedColor,
+                                });
+                                setTitle("");
+                                setScore("");
+                                setColor("");
+                            } catch (err: any) {}
                         }}
                     >
                         Thêm
                     </Button>
+                    {[...ranks]
+                        .sort((a, b) => b.score - a.score)
+                        .map((r) => (
+                            <div
+                                className="flex justify-between items-center"
+                                key={r.title}
+                            >
+                                <div className="items-center">
+                                    <Badge
+                                        className={`bg-${r.color}-950 text-white`}
+                                    >
+                                        {r.title} ({r.score} điểm)
+                                    </Badge>
+                                </div>
+                                <Button
+                                    onClick={() =>
+                                        removeRank({ title: r.title })
+                                    }
+                                    variant={"destructive"}
+                                    size={"icon"}
+                                >
+                                    <Trash />
+                                </Button>
+                            </div>
+                        ))}
                 </FieldGroup>
             </PopoverContent>
         </Popover>
