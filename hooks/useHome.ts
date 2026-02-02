@@ -44,7 +44,7 @@ export default function useHome() {
         };
 
         fetchPushMigrate();
-        console.log("Pushed migrate");
+        console.log("Pushed migrate", players);
     };
 
     const getMigrate = () => {
@@ -61,7 +61,9 @@ export default function useHome() {
         fetchGetMigrate();
     };
 
-    useEffect(() => pushMigrate, [players]);
+    useEffect(() => {
+        pushMigrate();
+    }, [players]);
 
     const reset = () => {
         window.localStorage.clear();
