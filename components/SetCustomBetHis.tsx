@@ -32,6 +32,7 @@ export default function SetCustomBetHis({
                     title: `${score > 0 ? `+` : ``}${score}`,
                     score,
                     color: "",
+                    isBulk: false,
                 },
             });
             setCusScore("");

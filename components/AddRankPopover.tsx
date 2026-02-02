@@ -23,11 +23,12 @@ export default function AddRankPopover({
     removeRank,
 }: {
     ranks: Rank[];
-    addRank: ({ title, score, color }: AddRank) => void;
+    addRank: ({ title, score, color, isBulk }: AddRank) => void;
     removeRank: ({ title }: RemoveRank) => void;
 }) {
     const [title, setTitle] = useState("");
     const [score, setScore] = useState("");
+    const [isBulk, setBulk] = useState(false);
     const [selectedColor, setColor] = useState("");
 
     return (
@@ -55,6 +56,16 @@ export default function AddRankPopover({
                         <Input
                             value={score}
                             onChange={(e) => setScore(e.target.value ?? "0")}
+                        />
+                    </Field>
+                    <Field orientation="horizontal">
+                        <FieldLabel className="w-1/3" htmlFor="isBulk">
+                            Chỉ cho thao tác hàng loạt
+                        </FieldLabel>
+                        <Checkbox
+                            checked={isBulk}
+                            onCheckedChange={() => setBulk(!isBulk)}
+                            id="isBulk"
                         />
                     </Field>
                     <div className="grid grid-cols-2 gap-2">
@@ -94,9 +105,11 @@ export default function AddRankPopover({
                                     title,
                                     score: scoreNum,
                                     color: selectedColor,
+                                    isBulk,
                                 });
                                 setTitle("");
                                 setScore("");
+                                setBulk(false);
                                 setColor("");
                             } catch (err: any) {}
                         }}

@@ -19,31 +19,33 @@ export default function SetRankPopover({
     ranks: Rank[];
     setBetHistory: ({ name, id, rank }: SetBetHistory) => void;
 }) {
+    var sortedRanks = ranks.sort((a, b) => b.score - a.score);
+    if (player.name != "*") {
+        sortedRanks = ranks.filter((r) => r.isBulk == false);
+    }
+
     return (
         <Popover>
             <PopoverTrigger asChild>{trigger}</PopoverTrigger>
             <PopoverContent className="w-fit">
-                {player.name != "*" && <span>{player.name}</span>}
-                <div className="flex flex-wrap gap-2 mt-4">
-                    {[...ranks]
-                        .sort((a, b) => b.score - a.score)
-                        .map((r) => {
-                            return (
-                                <Button
-                                    key={r.title}
-                                    onClick={() =>
-                                        setBetHistory({
-                                            name: player.name,
-                                            id: betId,
-                                            rank: r,
-                                        })
-                                    }
-                                    className={`bg-${r.color}-950 text-white cursor-pointer rounded-full`}
-                                >
-                                    {r.title}
-                                </Button>
-                            );
-                        })}
+                <div className="flex flex-wrap gap-2">
+                    {sortedRanks.map((r) => {
+                        return (
+                            <Button
+                                key={r.title}
+                                onClick={() =>
+                                    setBetHistory({
+                                        name: player.name,
+                                        id: betId,
+                                        rank: r,
+                                    })
+                                }
+                                className={`bg-${r.color}-950 text-white cursor-pointer rounded-full`}
+                            >
+                                {r.title}
+                            </Button>
+                        );
+                    })}
                 </div>
                 <SetCustomBetHis
                     name={player.name}

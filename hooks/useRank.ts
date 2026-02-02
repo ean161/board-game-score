@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 export default function useRank() {
     const [ranks, setRanks] = useState<Rank[]>([]);
 
-    const addRank = ({ title, score, color }: AddRank) => {
+    const addRank = ({ title, score, color, isBulk }: AddRank) => {
         if (!title || score == 0 || !color) {
             return;
         }
@@ -15,6 +15,7 @@ export default function useRank() {
                 title,
                 score,
                 color,
+                isBulk,
             },
         ]);
     };

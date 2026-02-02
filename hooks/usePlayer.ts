@@ -58,7 +58,21 @@ export default function usePlayer({
 
     const setBetHistory = ({ name, id, rank }: SetBetHistory) => {
         if (id >= betId) {
-            setBetId(betId + 1);
+            var idCount = 0;
+            players.map((p) => {
+                if (
+                    getBetHistory({
+                        name: p.name,
+                        id,
+                    })
+                ) {
+                    idCount++;
+                }
+            });
+
+            if (idCount >= players.length / 2 - 1) {
+                setBetId(betId + 1);
+            }
         }
 
         if (name == "*") {

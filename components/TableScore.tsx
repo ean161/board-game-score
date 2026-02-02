@@ -66,17 +66,17 @@ export default function TableScore({
             <TableBody>
                 {Array.from({ length: betId + 1 }, (_, idx) => {
                     const i = betId - idx;
-
                     if (i == 0) {
                         return;
                     }
+
                     return (
                         <TableRow
                             key={i}
                             className="*:border-border [&>:not(:last-child)]:border-r"
                         >
                             <TableCell className="cursor-pointer w-fit">
-                                {i >= betId ? (
+                                {i >= betId - 1 ? (
                                     <SetRankPopover
                                         trigger={
                                             <span className="text-white w-fit">
