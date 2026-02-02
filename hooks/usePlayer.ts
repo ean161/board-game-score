@@ -70,7 +70,7 @@ export default function usePlayer({
                 }
             });
 
-            if (idCount >= players.length / 2 - 1) {
+            if (idCount >= players.length / 2 - 1 || name == "*") {
                 setBetId(betId + 1);
             }
         }
