@@ -75,21 +75,25 @@ export default function TableScore({
                             key={i}
                             className="*:border-border [&>:not(:last-child)]:border-r"
                         >
-                            <TableCell className="text-muted">
-                                <SetRankPopover
-                                    trigger={
-                                        <span className="cursor-pointer">
-                                            {i}
-                                        </span>
-                                    }
-                                    betId={i}
-                                    player={{
-                                        name: "*",
-                                        histories: [],
-                                    }}
-                                    ranks={ranks}
-                                    setBetHistory={setBetHistory}
-                                />
+                            <TableCell className="cursor-pointer w-fit">
+                                {i >= betId ? (
+                                    <SetRankPopover
+                                        trigger={
+                                            <span className="text-white w-fit">
+                                                {i}
+                                            </span>
+                                        }
+                                        betId={i}
+                                        player={{
+                                            name: "*",
+                                            histories: [],
+                                        }}
+                                        ranks={ranks}
+                                        setBetHistory={setBetHistory}
+                                    />
+                                ) : (
+                                    <span className="text-gray-400">{i}</span>
+                                )}
                             </TableCell>
                             {players.map((p) => {
                                 const history = getBetHistory({
@@ -97,47 +101,53 @@ export default function TableScore({
                                     id: i,
                                 });
 
+                                const badge = history ? (
+                                    <Badge className={`bg-zinc-950 text-white`}>
+                                        <ShinyText
+                                            text={`${history.rank.title}`}
+                                            speed={1}
+                                            delay={5}
+                                            color={
+                                                i >= betId - 1
+                                                    ? "white"
+                                                    : "gray"
+                                            }
+                                            shineColor={history.rank.color}
+                                            spread={120}
+                                            direction="left"
+                                            yoyo={false}
+                                            pauseOnHover={true}
+                                            disabled={false}
+                                        />
+                                    </Badge>
+                                ) : (
+                                    <div className="flex justify-center w-full">
+                                        {i >= betId - 1 ? (
+                                            <Plus size={16} color="gray" />
+                                        ) : (
+                                            <span className="text-gray-400">
+                                                0
+                                            </span>
+                                        )}
+                                    </div>
+                                );
+
                                 return (
                                     <TableCell
                                         key={p.name}
                                         className={`text-center cursor-pointer bg-${history?.rank.color}-950`}
                                     >
-                                        <SetRankPopover
-                                            trigger={
-                                                history ? (
-                                                    <Badge
-                                                        className={`bg-zinc-950 text-white`}
-                                                    >
-                                                        <ShinyText
-                                                            text={`${history.rank.title}`}
-                                                            speed={1}
-                                                            delay={30}
-                                                            color="gray"
-                                                            shineColor={
-                                                                history.rank
-                                                                    .color
-                                                            }
-                                                            spread={120}
-                                                            direction="left"
-                                                            yoyo={false}
-                                                            pauseOnHover={true}
-                                                            disabled={false}
-                                                        />
-                                                    </Badge>
-                                                ) : (
-                                                    <div className="flex justify-center w-full">
-                                                        <Plus
-                                                            size={16}
-                                                            color="gray"
-                                                        />
-                                                    </div>
-                                                )
-                                            }
-                                            betId={i}
-                                            player={p}
-                                            ranks={ranks}
-                                            setBetHistory={setBetHistory}
-                                        />
+                                        {i >= betId - 1 ? (
+                                            <SetRankPopover
+                                                trigger={badge}
+                                                betId={i}
+                                                player={p}
+                                                ranks={ranks}
+                                                setBetHistory={setBetHistory}
+                                            />
+                                        ) : (
+                                            badge
+                                        )}
                                     </TableCell>
                                 );
                             })}

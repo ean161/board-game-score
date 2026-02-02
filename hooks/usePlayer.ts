@@ -69,7 +69,7 @@ export default function usePlayer({
                     const histories = p.histories.map((h) => {
                         if (h.id === id) {
                             found = true;
-                            return { ...h, rank };
+                            return { ...h, rank, createdAt: new Date() };
                         }
                         return h;
                     });
@@ -78,7 +78,10 @@ export default function usePlayer({
                         ...p,
                         histories: found
                             ? histories
-                            : [...histories, { id, rank }],
+                            : [
+                                  ...histories,
+                                  { id, rank, createdAt: new Date() },
+                              ],
                     };
                 }),
             );
@@ -94,14 +97,16 @@ export default function usePlayer({
                 const histories = p.histories.map((h) => {
                     if (h.id === id) {
                         found = true;
-                        return { ...h, rank };
+                        return { ...h, rank, createdAt: new Date() };
                     }
                     return h;
                 });
 
                 return {
                     ...p,
-                    histories: found ? histories : [...histories, { id, rank }],
+                    histories: found
+                        ? histories
+                        : [...histories, { id, rank, createdAt: new Date() }],
                 };
             }),
         );
