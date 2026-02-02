@@ -89,7 +89,7 @@ export default function Home() {
                     </Button>
                 </ButtonGroup>
             </ButtonGroup>
-            {isChartHidden && (
+            {!isChartHidden && (
                 <ChartContainer config={chartConfig} className="w-full">
                     <LineChart accessibilityLayer data={chart}>
                         <CartesianGrid vertical={false} />
