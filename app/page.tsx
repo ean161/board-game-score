@@ -10,8 +10,8 @@ import useHome from "@/hooks/useHome";
 export default function Home() {
     const {
         betId,
-        getData,
-        setData,
+        pushMigrate,
+        getMigrate,
         reset,
         resetHistories,
         ranks,
@@ -41,7 +41,10 @@ export default function Home() {
                     />
                 </ButtonGroup>
                 <ButtonGroup>
-                    <MigratePopover getData={getData} setData={setData} />
+                    <MigratePopover
+                        pushMigrate={pushMigrate}
+                        getMigrate={getMigrate}
+                    />
                     <ResetPopover
                         reset={reset}
                         resetHistories={resetHistories}
@@ -56,14 +59,6 @@ export default function Home() {
                 setBetHistory={setBetHistory}
             />
             <div className="">
-                {Array.from({ length: 9 }, (_, idx) => (
-                    <span
-                        key={idx}
-                        className={idx == 1 ? `bg-red-${idx * 100}` : ""}
-                    >
-                        {idx * 100}
-                    </span>
-                ))}
                 <span className="bg-red-950"></span>
                 <span className="bg-orange-950"></span>
                 <span className="bg-amber-950"></span>

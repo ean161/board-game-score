@@ -26,12 +26,42 @@ export default function useHome() {
 
     const setData = (data: string) => {
         try {
-            const args = data.split("|||");
+            const args = data.trim().split("|||");
             setBetId(Number(args[0]));
             setRanks(JSON.parse(args[1]));
             setPlayers(JSON.parse(args[2]));
         } catch (err: any) {}
     };
+
+    const pushMigrate = () => {
+        const fetchPushMigrate = async () => {
+            await fetch("https://bot.ean.vn/board-game-score.php", {
+                method: "POST",
+                body: JSON.stringify({
+                    data: getData(),
+                }),
+            });
+        };
+
+        fetchPushMigrate();
+        console.log("Pushed migrate");
+    };
+
+    const getMigrate = () => {
+        const fetchGetMigrate = async () => {
+            try {
+                const req = await fetch(
+                    "https://bot.ean.vn/board-game-score.php",
+                );
+                const res = await req.text();
+                setData(res);
+            } catch (err: any) {}
+        };
+
+        fetchGetMigrate();
+    };
+
+    useEffect(() => pushMigrate, [players]);
 
     const reset = () => {
         window.localStorage.clear();
@@ -56,8 +86,8 @@ export default function useHome() {
     return {
         betId,
         setBetId,
-        getData,
-        setData,
+        pushMigrate,
+        getMigrate,
         reset,
         resetHistories,
         players,

@@ -1,28 +1,17 @@
 "use client";
-
-import { CheckCheck, CircleFadingArrowUp, Copy } from "lucide-react";
+import { CircleFadingArrowUp, CloudDownload, CloudUpload } from "lucide-react";
 import { Button } from "./ui/button";
 import { ButtonGroup } from "./ui/button-group";
 import { Field } from "./ui/field";
-import { Input } from "./ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { useState } from "react";
 
 export default function MigratePopover({
-    getData,
-    setData,
+    pushMigrate,
+    getMigrate,
 }: {
-    getData: () => string;
-    setData: (data: string) => void;
+    pushMigrate: () => void;
+    getMigrate: () => void;
 }) {
-    const [dataIp, setDataIp] = useState("");
-
-    const copyText = async (text: string) => {
-        try {
-            await navigator.clipboard.writeText(text);
-        } catch (err: any) {}
-    };
-
     return (
         <Popover>
             <PopoverTrigger asChild>
@@ -31,32 +20,22 @@ export default function MigratePopover({
                     Migrate
                 </Button>
             </PopoverTrigger>
-            <PopoverContent>
+            <PopoverContent className="w-fit">
                 <Field>
                     <ButtonGroup>
-                        <Input
-                            value={dataIp}
-                            onChange={(e) => setDataIp(e.target.value)}
-                        />
                         <Button
-                            onClick={() => {
-                                setData(dataIp);
-                                setDataIp("");
-                            }}
+                            onClick={pushMigrate}
                             variant={"outline"}
                             size={"icon"}
                         >
-                            <CheckCheck color="green" />
+                            <CloudUpload color="green" />
                         </Button>
                         <Button
-                            onClick={() => {
-                                setDataIp(getData());
-                                copyText(getData());
-                            }}
+                            onClick={getMigrate}
                             variant={"outline"}
                             size={"icon"}
                         >
-                            <Copy color="white" />
+                            <CloudDownload color="white" />
                         </Button>
                     </ButtonGroup>
                 </Field>
