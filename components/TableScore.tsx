@@ -92,7 +92,9 @@ export default function TableScore({
                                         setBetHistory={setBetHistory}
                                     />
                                 ) : (
-                                    <span className="text-gray-400">{i}</span>
+                                    <span className="text-neutral-500">
+                                        {i}
+                                    </span>
                                 )}
                             </TableCell>
                             {players.map((p) => {
@@ -125,7 +127,7 @@ export default function TableScore({
                                         {i >= betId - 1 ? (
                                             <Plus size={16} color="gray" />
                                         ) : (
-                                            <span className="text-gray-400">
+                                            <span className="text-neutral-500">
                                                 0
                                             </span>
                                         )}
