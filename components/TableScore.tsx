@@ -17,6 +17,7 @@ import { Rank } from "@/types/Rank";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import SetRankPopover from "./SetRankPopover";
 import ShinyText from "@/components/ShinyText";
+import { genColorBasedOnName } from "@/lib/utils";
 
 export default function TableScore({
     betId,
@@ -52,7 +53,7 @@ export default function TableScore({
                                     >
                                         <Avatar className="size-6 rounded-full items-center bg-gray-100/10">
                                             <AvatarImage
-                                                src={`https://robohash.org/${encodeURI(p.name)}`}
+                                                src={`https://robohash.org/${encodeURI(p.name)}?set=set4&color=${genColorBasedOnName(p.name)}`}
                                             />
                                         </Avatar>
                                         <span>{p.name}</span>

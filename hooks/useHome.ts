@@ -2,9 +2,12 @@
 import { useEffect, useState } from "react";
 import usePlayer from "./usePlayer";
 import useRank from "./useRank";
+import { ChartConfig } from "@/components/ui/chart";
 
 export default function useHome() {
     const [betId, setBetId] = useState<number>(1);
+    const [chart, setChart] = useState<Record<string, number>[]>([]);
+
     const {
         players,
         setPlayers,
@@ -19,6 +22,17 @@ export default function useHome() {
         setBetId,
     });
     const { ranks, setRanks, addRank, removeRank, resetRank } = useRank();
+
+    const chartConfig = {
+        desktop: {
+            label: "Desktop",
+            color: "var(--chart-1)",
+        },
+        mobile: {
+            label: "Mobile",
+            color: "var(--chart-1)",
+        },
+    } satisfies ChartConfig;
 
     const getData = () => {
         return `${betId}|||${JSON.stringify(ranks)}|||${JSON.stringify(players)}`;
@@ -85,9 +99,46 @@ export default function useHome() {
         window.localStorage.setItem("betId", String(betId));
     }, [betId]);
 
+    const sumToBetId = ({ name, id }: { name: string; id: number }) => {
+        var sum = 0;
+        const p = players.findLast((p) => p.name == name);
+        if (!p) {
+            return 0;
+        }
+
+        p.histories.map((h) => {
+            if (h.id <= id) {
+                sum += h.rank.score;
+            }
+        });
+
+        return sum;
+    };
+
+    useEffect(() => {
+        var charts = [];
+
+        for (let i = 0; i <= betId; i++) {
+            const data: Record<string, number> = { id: i };
+
+            players.forEach((p) => {
+                data[p.name] = sumToBetId({
+                    name: p.name,
+                    id: i,
+                });
+            });
+
+            charts.push(data);
+        }
+
+        setChart(charts);
+    }, [players, betId]);
+
     return {
         betId,
         setBetId,
+        chartConfig,
+        chart,
         pushMigrate,
         getMigrate,
         reset,
