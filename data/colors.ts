@@ -5,7 +5,8 @@ export const colors: string[] = [
     "emerald",
     "yellow",
     "teal",
-
+    "pink",
     "purple",
     "blue",
+    "lime",
 ];

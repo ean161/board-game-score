@@ -89,29 +89,27 @@ export default function Home() {
                     </Button>
                 </ButtonGroup>
             </ButtonGroup>
-            <ChartContainer
-                config={chartConfig}
-                className="w-full"
-                hidden={isChartHidden}
-            >
-                <LineChart accessibilityLayer data={chart}>
-                    <CartesianGrid vertical={false} />
-                    <XAxis dataKey="id" tickLine={false} axisLine={false} />
-                    <ChartTooltip
-                        cursor={true}
-                        content={<ChartTooltipContent />}
-                    />
-                    {players.map((p) => (
-                        <Line
-                            dataKey={p.name}
-                            type="natural"
-                            stroke={genColorBasedOnName(p.name)}
-                            strokeWidth={2}
-                            dot={false}
+            {isChartHidden && (
+                <ChartContainer config={chartConfig} className="w-full">
+                    <LineChart accessibilityLayer data={chart}>
+                        <CartesianGrid vertical={false} />
+                        <XAxis dataKey="id" tickLine={false} axisLine={false} />
+                        <ChartTooltip
+                            cursor={true}
+                            content={<ChartTooltipContent />}
                         />
-                    ))}
-                </LineChart>
-            </ChartContainer>
+                        {players.map((p) => (
+                            <Line
+                                dataKey={p.name}
+                                type={"natural"}
+                                stroke={genColorBasedOnName(p.name)}
+                                strokeWidth={2}
+                                dot={false}
+                            />
+                        ))}
+                    </LineChart>
+                </ChartContainer>
+            )}
             <TableScore
                 betId={betId}
                 players={players}
